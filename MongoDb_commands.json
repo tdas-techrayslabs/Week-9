@@ -1,0 +1,353 @@
+// List all databases
+
+show dbs
+
+// ------------------------------------------------------------------------------
+
+// Create Database
+
+use("school")
+
+// ------------------------------------------------------------------------------
+
+// Create collections
+
+db.createCollection("students")
+
+// ------------------------------------------------------------------------------
+
+// List all collections
+
+show collections
+
+// ------------------------------------------------------------------------------
+
+// Drop collection
+
+db.studnets.drop()
+
+// ------------------------------------------------------------------------------
+
+// Drop Database
+
+db.dropDatabase()
+
+//  ------------------------------------------------------------------------------
+
+// Rename collection
+
+db.students.renameCollection("students_1")
+
+// ------------------------------------------------------------------------------
+
+// Insert one data into the collection
+
+db.personal.insertOne({
+    name: "Gia Yovani",
+    age: 22,
+    married: true,
+    dob: ISODate('2001-10-01T07:30:00.000Z'),
+    weight: 61.22,
+    kids: 2,
+    hobbies: ['music', 'travel'],
+    address: {
+        street: '456 Main St',
+        city: 'Goa',
+        zip: 10001
+    }
+})
+
+// Insert more than one data into the collection
+
+db.students.insertMany([
+    {
+      "name": "Aarav Mehta",
+      "age": 21,
+      "city": "Mumbai",
+      "class": "BTech"
+    },
+    {
+      "name": "Saanvi Patel",
+      "age": 20,
+      "city": "Ahmedabad",
+      "class": "BSc"
+    }])
+
+// ------------------------------------------------------------------------------
+
+// Adding validation to new collection
+
+db.createCollection("students", {
+	validator: {
+		$jsonSchema: {
+			title: "Student Object Validation",
+			required: ["name", "age", "course"],	
+			properties: {
+				name: {	
+					bsonType: "string",
+					description: "Name must be string and required"
+				},
+
+				age: {	
+					bsonType: "int",	
+					minimum: 5,
+					maximum: 20, 
+					description: "Age must be an integer and required"
+				},
+				
+				course: {	
+					bsonType: "string",
+					enum: ["BCA", "BTech", "BSc"],
+					description: "Course must be one of the following valued: BCA, Btech, BSc."
+				},				
+			}
+		}
+	}
+});
+
+// ------------------------------------------------------------------------------
+
+// Adding validation to existing validation
+
+db.runCommand({
+    collMod: "personal",
+    validator: {
+        $jsonSchema: {
+            required: ["name", "age", "married", "dob", "weight", "kids", "address"],
+
+            properties: {
+                name: {
+                    bsonType: "string",
+                    description: "Name must be a string and is required"
+                },
+                age: {
+                    bsonType: "int",
+                    minimum: 20,
+                    maximum: 35,
+                    description: "Age must be an integer between 20 and 35 is required"
+                },
+                married: {
+                    bsonType: "bool",
+                    description: "Married must be boolean (true / false)"
+                },
+                dob: {
+                    bsonType: "date",
+                    description: "BOB must be an date"
+                },
+                weight: {
+                    bsonType: "double",
+                    description: "Weight must be an double"
+                }, 
+                kids: {
+                    bsonType: "int",
+                    description: "Kids must be an integer"
+                },
+                hobbies: {
+                    bsonType: "array",
+                    items: {
+                        bsonType: "string"
+                    },
+                    description: "Courses must be an array of strings"
+                },
+                address: {
+                    bsonType: "object",
+                    required: ["street", "city", "zip"],
+                    properties: {
+                        street: {
+                            bsonType: "string",
+                            description: "Street must be a string and is required"
+                        },
+                        city: {
+                            bsonType: "string",
+                            description: "City must be a string and is required"
+                        },
+                        zip: {
+                            bsonType: "int",
+                            description: "Zip code must be an integer is required"
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
+// ------------------------------------------------------------------------------
+
+// Update 
+
+db.students.updateOne(
+    { name: "Ankit Das" },
+    { $set: { age: 19, name: "Ankit" } }
+);
+
+
+// Update - $inc 
+
+db.students.updateOne(
+    { name: "Mika" },
+    { $inc: { age: 2 } }
+)
+
+
+// Update - $mul
+
+db.students.updateOne(
+    { name: "Mika" },
+    { $mul: { age: 2 } }
+)
+
+// Update - $min
+
+db.students.updateOne(
+  { name: 'Myra Nair' },
+  { $min: { age: 20 } }
+);
+
+
+// Update - $max
+
+db.students.updateOne(
+  { name: 'Anaya Das' },
+  { $max: { age: 22 } }
+);
+
+// Update - $rename
+
+db.students.updateMany(
+    {},
+    { $rename: { skills: "coding_skills" } }
+);
+
+// Update - $currentDate
+
+db.students.updateMany(
+  {},
+  { $currentDate: {"lastModified": true}}
+);
+
+// Update - Array Functions: $push
+
+db.students.updateOne(
+  { _id: ObjectId("6808507c76322eb487e2d506") },
+  { $push: { coding_skills: "Python" } }
+);
+
+// Update - Array Functions - $addToSet
+
+db.students.updateOne(
+  { _id: ObjectId("6808507c76322eb487e2d506") },
+  { $addToSet: { coding_skills: "Python" } }
+);
+
+// Update - Array Functions - $pop
+
+db.students.updateOne(
+  { _id: ObjectId("6808507c76322eb487e2d506") },
+  { $pop: { coding_skills: 1 } }  // Removes the last element
+);
+
+
+db.students.updateOne(
+  { _id: ObjectId("6808507c76322eb487e2d506") },
+  { $pop: { coding_skills: -1 } }  // Removes the first element
+);
+
+// Update - Array Functions - $pull
+
+db.students.updateOne(
+  { _id: ObjectId("6808507c76322eb487e2d501") },
+  { $pull: { coding_skills: "Swift" } }
+);
+
+// Update - Array Functions - $pullAll
+
+db.students.updateOne(
+  { _id: ObjectId("6808507c76322eb487e2d500") },
+  { $pullAll: { coding_skills: ["Ruby", "Go"]} }
+);
+
+// ------------------------------------------------------------------------------
+
+// Replace existing document
+
+db.students.replaceOne(
+  { _id: ObjectId("6808507c76322eb487e2d4fd") },
+  { name: "Kia Jones",
+    age: 28,
+    class: "BIT",
+    coding_skills: ["MySQL", "Java", "Go"]
+  } 
+  )
+  
+// ------------------------------------------------------------------------------
+
+// Delete single document 
+
+db.students.deleteOne({
+    _id: ObjectId("6808507c76322eb487e2d505")
+})
+
+// ------------------------------------------------------------------------------
+
+// Delete more than 1 document
+
+db.students.deleteMany({
+    class: "BCA"
+})
+
+// ------------------------------------------------------------------------------
+
+// Read document 
+
+db.students.find()  
+
+db.students.find({class: "BSc"})
+
+db.students.findOne({class: "BSc"})
+ 
+db.students.find({ age: 20})
+
+// ------------------------------------------------------------------------------
+
+// Read + projection
+
+db.students.find({}, {name: 1, age: 1, _id: 0})
+
+db.students.find({age: 20}, {name: 1, age: 1})
+
+db.students.find({age: 20}, {name: 1, age: 1, _id: 0})
+
+db.students.find({class: "BSc"}).projection({name: 1, class: 1, _id: 0})
+
+db.students.find().projection({name: 1, class: 1, _id: 0})
+
+// ------------------------------------------------------------------------------
+
+// count() functiion
+
+db.students.find({class: "BSc"}).count()
+
+// ------------------------------------------------------------------------------
+
+// sort() function
+
+db.students.find().sort({name: 1})
+
+db.students.find().projection({name: 1, _id:0}).sort({name: 1}) //Ascending order
+
+db.students.find().projection({name: 1, _id:0}).sort({name: -1}) // Descending order
+
+// ------------------------------------------------------------------------------
+
+// Limit() function
+
+db.students.find().limit(3)
+db.students.find().projection({name: 1, _id:0}).sort({name: -1}).limit(3)
+
+// skip() function
+
+db.students.find().limit(3).skip(2)
+
+db.students.find().projection({name: 1, _id:0}).sort({name: -1}).limit(3).skip(3)
+
