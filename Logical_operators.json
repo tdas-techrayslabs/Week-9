@@ -1,0 +1,61 @@
+// 1. $and - return documents where both queries match
+
+db.students.find({$and: [
+    {age: {$gt: 20}},
+    {age: {$lt: 23}}
+]})
+
+db.students.find({$and: [
+    {age: {$gt: 20}},
+    {age: {$lt: 23}}
+]}, {name: 1, age: 1, class: 1, _id: 0})
+
+db.students.find({$and: [
+    {age: {$gt: 20}},
+    {class: {$eq: "BTech"}}
+]}, {name: 1, age: 1, class: 1, _id: 0})
+
+// ---------------------------------------------------------------------
+
+// 2. $or - return documents where either queries match
+
+db.students.find({$or: [
+    {age: {$gt: 21}},
+    {class: {$eq: "BTech"}}
+]}, {name: 1, age: 1, class: 1, _id: 0})
+ 
+// ---------------------------------------------------------------------
+
+// 3. $nor - return documents where both queries fail to match
+
+db.students.find({$nor: [
+    {age: {$gt: 21}},
+    {class: {$eq: "BTech"}}
+]}, {name: 1, age: 1, class: 1, _id: 0})
+
+// ---------------------------------------------------------------------
+
+// 4. $not - return documents where the query does not match
+
+db.students.find({
+    age: {$not: {$gt: 21}}
+},
+{name: 1, age: 1, class: 1, _id: 0})
+
+
+db.students.find({
+    class: {$not: {$eq: "BIT"}}
+})
+
+
+
+// // ---------------------------------------------------------------------
+
+// DELETE + Logical Operator
+
+db.students.deleteMany({
+    $and: [
+        {age: {$gte: 22}},
+        {class: {$eq: "BIT"}}
+    ]
+})
