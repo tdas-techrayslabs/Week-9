@@ -1,0 +1,69 @@
+// 1. $regex: Matches string fields to a pattern 
+
+db.students.find({
+    name: {$regex: "Das"}
+})
+
+db.students.find({ name: { $regex: "Langford$" } })
+
+db.students.find({ name: { $regex: /das/i } }) // Case insensitive
+
+db.students.find({ name: { $regex: "My" } })
+
+db.students.find({ name: { $regex: "^R" } })
+
+// -------------------------------------------------------------------
+
+// 2. $expr: Allows field comparisons within documents
+
+db.monthlyBudget.find({
+    $expr: {$gt: ["$spent", "$budget"]}
+})   
+
+db.monthlyBudget.find({
+    $expr: {$gt: ["$spent", 
+    {$multiply: ["$budget", 1.2] } ]}
+})  
+
+// -------------------------------------------------------------------
+
+// 3. $mod: Matches numbers based on remainder
+
+db.monthlyBudget.find({
+    budget: {$mod: [8, 0]}
+})  
+
+
+// -------------------------------------------------------------------
+
+// 4. $jsonSchema: Validate documents against the given JSON Schema
+
+// Adding validation to new collection
+
+db.createCollection("students", {
+	validator: {
+		$jsonSchema: {
+			title: "Student Object Validation",
+			required: ["name", "age", "course"],	
+			properties: {
+				name: {	
+					bsonType: "string",
+					description: "Name must be string and required"
+				},
+
+				age: {	
+					bsonType: "int",	
+					minimum: 5,
+					maximum: 20, 
+					description: "Age must be an integer and required"
+				},
+				
+				course: {	
+					bsonType: "string",
+					enum: ["BCA", "BTech", "BSc"],
+					description: "Course must be one of the following valued: BCA, Btech, BSc."
+				},				
+			}
+		}
+	}
+});
