@@ -1,0 +1,70 @@
+// 1. Equal to: $eq
+
+db.students.find({age: {$eq: 20}})
+
+// ---------------------------------------------------------------------
+
+// 2. Not Equal to: $ne
+
+db.students.find({age: {$ne: 20}})
+
+db.students.find({class: {$ne: "BIT"}}) 
+
+// ---------------------------------------------------------------------
+
+// 3. Greater than: $gt
+
+db.students.find({age: {$gt: 20}})
+
+// ---------------------------------------------------------------------
+
+// 4. Greater than equal to: $gte
+
+db.students.find({age: {$gte: 20}})
+
+// ---------------------------------------------------------------------
+
+// 5. Less than: $lt
+
+db.students.find({age: {$lt: 20}})
+
+// ---------------------------------------------------------------------
+
+// 6. Less than: $lte
+
+db.students.find({age: {$lte: 20}})
+
+// ---------------------------------------------------------------------
+
+// 7. $in
+
+db.students.find({age: {$in: [20, 22]}})
+
+db.students.find({city: {$in: ["Kolkata", "Ahmedabad"]}})
+
+
+// ---------------------------------------------------------------------
+
+// 8. $nin
+
+db.students.find({age: {$nin: [20, 22]}})
+
+db.students.find({city: {$nin: ["Kolkata", "Ahmedabad"]}})
+
+// // ---------------------------------------------------------------------
+
+// Update + comparison operator
+
+db.students.updateMany(
+    {age: {$lt: 20}},
+    {$set: {class: "12th"}}
+)
+
+// -------------------------------------------------------------------------
+
+// DELETE + Comparison operator
+
+db.students.deleteMany(
+    {age: {$lt: 20}}
+)
+
