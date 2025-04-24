@@ -1,0 +1,21 @@
+// 1. $exists: Matches document that have the specified field
+
+db.students.find({class: {$exists: true}})
+
+db.students.find({class: {$exists: false}})
+
+// // ---------------------------------------------------------------------
+
+// 2. $type: Select documents if a field is of the specified type
+
+db.students.find({age: {$type: "int"}})
+
+db.students.find({age: {$type: "string"}})
+
+db.students.find({age: {$type: "double"}})
+
+db.students.find({age: {$type: ["string", "double"]}})
+
+db.students.find({age: {$type: 1}}) // 1 = double
+
+db.students.find({age: {$type: 2}}) // 2 = string
