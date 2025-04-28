@@ -1,0 +1,79 @@
+// $lookup
+
+db.library.aggregate([
+    {
+        $lookup: {
+            from: "students_new",
+            localField: "student_id",
+            foreignField: "_id",
+            as: "Student" 
+        }
+    }
+])
+
+db.students_new.aggregate([
+    {
+        $lookup: {
+            from: "library",
+            localField: "_id",
+            foreignField: "student_id",
+            as: "Book" 
+        }
+    }
+])
+
+db.customers.aggregate([
+    {
+        $lookup: {
+            from: "orders",
+            localField: "_id",
+            foreignField: "customer_id",
+            as: "order_details"
+        }
+    }
+])
+
+// -------------------------------------------------------------------------
+
+// $lookup - $unwind
+
+db.students_new.aggregate([
+    {
+        $lookup: {
+            from: "library",
+            localField: "_id",
+            foreignField: "student_id",
+            as: "Book" 
+        }
+    },
+    {$unwind: "$Book"}
+])
+
+// ---------------------------------------------------------------------
+
+// $replaceRoot
+
+db.library.aggregate([
+    {
+        $lookup: {
+            from: "students_new",
+            localField: "student_id",
+            foreignField: "_id",
+            as: "Student" 
+        }
+    },
+    {
+        $replaceRoot: {
+            newRoot: {
+                $mergeObjects: [
+                    {
+                        $arrayElemAt: ["$Student", 0]
+                    },
+                    "$$ROOT"
+                ]
+            }
+        }
+    },
+    {$project: {Student: 0}}
+])
+
