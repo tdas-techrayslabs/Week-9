@@ -1,0 +1,105 @@
+// 1. findOneAndUpdate() Method
+
+db.students.findOneAndUpdate(
+    {name: "Myra Nair"},
+    {$set: {age: 24}}
+)
+
+// -- returnDocument
+
+db.students.findOneAndUpdate(
+    {name: "Myra Nair"},
+    {$set: {age: 22}},
+    {returnDocument: "after"}
+)
+
+// -- projection
+
+db.students.findOneAndUpdate(
+    {name: "Myra Nair"},
+    {$set: {age: 25}},
+    {
+        returnDocument: "after",
+        projection: {name: 1, age: 1, _id: 0}
+    }
+)
+
+
+// -- upsert
+
+db.students.findOneAndUpdate(
+    {name: "Morrin Jackson"},
+    {$set: {age: 25}},
+    {
+        returnDocument: "after",
+        projection: {name: 1, age: 1, _id: 0}
+    }
+)
+
+// null
+
+db.students.findOneAndUpdate(
+    {name: "Morrin Jackson"},
+    {$set: {age: 25, class: "BIT"}},
+    {
+        returnDocument: "after",
+        projection: {name: 1, age: 1, _id: 0},
+        upsert: true
+    } 
+)
+
+// -- sort
+
+db.students.findOneAndUpdate(
+    {name: "Kiara Sen"},
+    {$set: {class: "BSc"}},
+    {
+        sort: {age: 1}
+    }
+)
+
+
+// -------------------------------------------------------------------------
+
+// 2. findOneAndReplace
+
+db.students.findOneAndReplace(
+    {name: "Sarah Jones"},
+    {name: "Sanah Jones", age: 29, class: "BCom"},
+    {
+        returnDocument: "after"
+    }
+)
+
+// -------------------------------------------------------------------------
+
+// 3. findOneAndDelete
+
+db.students.findOneAndDelete(
+    {name: "Reeyansh Gupta"}
+)
+
+// null
+
+db.students.findOneAndDelete(
+    {name: "Reyansh Gupta"}
+)
+
+// -- projection
+
+db.students.findOneAndDelete(
+    {name: "Kiara Sen"},
+    {
+        projection: {name: 1, age: 1, _id: 0}
+    }
+)
+
+// -- sort
+
+db.students.findOneAndDelete(
+    {name: "Kiara Sen"},
+    {
+        projection: {name: 1, age: 1, _id: 0},
+        sort: {age: -1}
+    }
+)
