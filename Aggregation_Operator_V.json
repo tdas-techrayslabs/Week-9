@@ -1,0 +1,213 @@
+// $addFields
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+        }
+    }
+])
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            _id: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+        }
+    }
+])
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            firstName: "$$REMOVE",
+            lastName: "$$REMOVE"
+        }
+    }
+])
+
+// ----------------------------------------------------------------------------
+
+// $project
+
+db.students_details.aggregate([
+    {
+        $project: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+        }
+    }
+])
+
+// -----------------------------------------------------------------------------
+
+// $addFields - $ifNull
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            firstName: "$$REMOVE",
+            lastName: "$$REMOVE",
+            city: {
+                $ifNull: ["$city", "$$REMOVE"]
+            }
+        }
+    }
+])
+
+// -------------------------------------------------------------------------------------
+
+
+// $addFields - $cond (if...else)
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            firstName: "$$REMOVE",
+            lastName: "$$REMOVE",
+            city: {
+                $cond: {
+                    if: {$eq: ["$city", "New York"] },
+                    then: "$$REMOVE",
+                    else: "$city"
+                }
+            }
+        }
+    }
+])
+
+// -------------------------------------------------------------------------------------
+
+// $addFields - $match
+
+db.students_details.aggregate([
+    {$match: {_id: 1}},
+    {
+        $addFields: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            firstName: "$$REMOVE",
+            lastName: "$$REMOVE"
+        }
+    }
+])
+
+// -------------------------------------------------------------------------------------
+
+// $addFields - adding object type field
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            fullName: { 
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            firstName: "$$REMOVE",
+            lastName: "$$REMOVE",
+            "profile.age": 30
+        }
+    }
+])
+
+// -------------------------------------------------------------------------------------
+
+// $addFields - adding new item in an array
+
+db.students_details.aggregate([
+    {$match: {_id: 1}},
+    {
+        $addFields: {
+            fullName: { 
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            firstName: "$$REMOVE",
+            lastName: "$$REMOVE",
+            marks: {
+                $concatArrays: ["$marks", [70]]
+            }
+        }
+    }
+])
+
+
+// -------------------------------------------------------------------------------------
+
+// $addFields - $sum
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            TotalMarks: {
+                $sum: "$marks"
+            },
+        }
+    }
+])
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            TotalMarks: {
+                $sum: "$marks"
+            },
+            firstName: "$$REMOVE",
+            lastName: "$$REMOVE"
+        }
+    }
+])
+
+// -------------------------------------------------------------------------------------
+
+// $addFields - $avg
+
+db.students_details.aggregate([
+    {
+        $addFields: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            },
+            firstName: "$$REMOVE",
+            lastName: "$$REMOVE",
+            TotalMarks: {
+                $sum: "$marks"
+            },
+            AverageMarks: {
+                $avg: "$marks"
+            }
+        }
+    }
+])
+
+// -------------------------------------------------------------------------------------
+
+
+// $unwind - It is used to deconstruct an array field — it creates a separate document for each element of the array.
+
+db.inventory.aggregate([
+    {$unwind: "$sizes"}
+])
+
+
+db.product.aggregate([
+    {$unwind: "$items.tags"}
+])
