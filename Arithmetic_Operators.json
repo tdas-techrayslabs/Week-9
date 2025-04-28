@@ -1,0 +1,182 @@
+// $add
+
+db.sales.aggregate([
+    {$project: {
+        sum: {$add: [5, 3]}
+    }}
+])
+
+db.sales.aggregate([
+    {$project: {
+        sum: {$add: ["$price", "$quantity"]}
+    }}
+])
+
+db.sales.aggregate([
+    {$project: {
+        _id: 0,
+        product: 1,
+        price: 1,
+        quantity: 1,
+        sum: {$add: ["$price", "$quantity"]}
+    }}
+])
+
+// ------------------------------------------------------
+
+
+// $subtract
+
+db.sales.aggregate([
+    {$project: {
+        _id: 0,
+        product: 1,
+        price: 1,
+        quantity: 1,
+        subtract: {$subtract: ["$price", "$quantity"]}
+    }}
+])
+
+// -------------------------------------------------------------
+
+
+// $multiply
+
+db.sales.aggregate([
+    {$project: {
+        _id: 0,
+        product: 1,
+        price: 1,
+        quantity: 1,
+        total: {$multiply: ["$price", "$quantity"]}
+    }}
+])
+
+// -------------------------------------------------------------------
+
+// $divide
+
+db.sales.aggregate([
+    {$project: {
+        result: {$divide: [10, 2]}
+    }}
+])
+
+db.sales.aggregate([
+    {$project: {
+        result: {$divide: ["$price", "$quantity"]}
+    }}
+])
+
+// ---------------------------------------------------------------------
+
+// $mod
+
+db.sales.aggregate([
+    {$project: {
+        result: {$mod: [10, 2]}
+    }}
+])
+
+db.sales.aggregate([
+    {$project: {
+        result: {$mod: ["$price", "$quantity"]}
+    }}
+])
+
+// --------------------------------------------------------------------------
+
+// $pow
+
+db.sales.aggregate([
+    {$project: {
+        result: {$pow: [10, 3]}
+    }}
+])
+
+db.sales.aggregate([
+    {$project: {
+        result: {$pow: ["$price", 4]}
+    }}
+])
+
+// ---------------------------------------------------------------------------
+
+// $sqrt
+
+
+db.sales.aggregate([
+    {$project: {
+        result: {"$sqrt":  4}
+    }}
+])
+
+db.sales.aggregate([
+    {$project: {
+        result: {"$sqrt": "$price"}
+    }}
+])
+
+
+// ---------------------------------------------------------------------------
+
+// $abs
+
+db.sales.aggregate([
+    {$project: {
+        result: {$abs: -9.3}
+    }}
+])
+
+
+// ---------------------------------------------------------------------------
+
+// $floor
+
+
+db.sales.aggregate([
+    {$project: {
+        result: {$floor: 9.3}
+    }}
+])
+
+// ---------------------------------------------------------------------------
+
+// $ceil
+
+
+db.sales.aggregate([
+    {$project: {
+        result: {$ceil: 9.3}
+    }}
+])
+
+// ---------------------------------------------------------------------------
+
+// $round
+
+db.sales.aggregate([
+    {$project: {
+        result: {$round: 9.4}
+    }}
+])
+
+db.sales.aggregate([
+    {$project: {
+        result: {$round: 9.7}
+    }}
+])
+
+
+// ---------------------------------------------------------------------------
+
+// $trunc
+
+db.sales.aggregate([
+    {$project: {
+        result: {$trunc: 9.4}
+    }}
+])
+
+// ---------------------------------------------------------------------------
+
