@@ -1,0 +1,123 @@
+// $facet - used to get multiple results
+
+db.studnets.aggregate([
+    {
+        $facet: {
+            topMarks: [
+                {$project: {
+                    topMarks: {$max: "$Marks"}
+                }}
+            ],
+            totalStudents: [
+                {$group: {_id: "$class", count: {$sum: 1}}},
+                {$sort: {count: -1}}
+            ]
+        }
+    }
+])
+
+db.sales.aggregate([
+    {
+        $facet: {
+            topProducts: [
+                {
+                    $group: {_id: "$product", totalSales: {$sum: {$multiply: ["$price", "$quantity"]}}}
+                },
+                {
+                    $sort: {totalSales: -1}
+                },
+                {
+                    $limit: 3
+                }
+            ],
+            totalRevenue: [
+                {
+                    $group: {_id: null, totalRevenue: {$sum: {$multiply: ["$price", "$quantity"]}}}
+                }
+            ],
+            salesByRegion: [
+                {
+                    $group: {_id: "$region", count: {$sum: 1}}
+                },
+                {
+                    $sort: {count: -1, region: 1}
+                }
+            ]
+        }
+    }
+])
+
+
+// ------------------------------------------------------------------------------
+
+
+// $fill
+
+db.students.aggregate([
+    {
+        $fill: {
+            partitionBy: {"class": "$class"},
+            sortBy: {_id: 1},
+            output: {
+                "marks": {
+                    method: "value", // linear, locf
+                    value: 0
+                }
+            }
+        }
+    }
+])
+
+
+db.students_fill.aggregate([
+    {
+        $fill: {
+            output: {
+                "per": {
+                    value: 0
+                }
+            }
+        }
+    }
+])
+
+db.students_fill.aggregate([
+    {
+        $fill: {
+            output: {
+                "per": {
+                    method: "locf" // previous value
+                }
+            }
+        }
+    }
+])
+
+
+db.students_fill.aggregate([
+    {
+        $fill: {
+            sortBy: {_id: 1},
+            output: {
+                "per": {
+                    method: "linear"
+                }
+            }
+        }
+    }
+])
+
+
+db.students_fill.aggregate([
+    {
+        $fill: {
+            partitionBy: {class: "$class"},
+            sortBy: {_id: 1},
+            output: {
+                "per": {
+                    method: "linear"
+                }
+            }
+        }
+    }
+])
