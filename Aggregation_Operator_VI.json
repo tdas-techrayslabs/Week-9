@@ -1,0 +1,70 @@
+// $out
+
+db.students.aggregate([
+    {$match: {"age": {$gt: 20}}},
+    {
+        $out: "Valid_Students"
+    }
+])
+
+db.students.aggregate([ // Exact copy of the collection
+    {
+        $out: "Valid_Students_1"
+    }
+])
+
+// ----------------------------------------------------------------------
+
+// $out - $group
+
+db.students.aggregate([
+    {$group: {
+        _id: "$class",
+        students: {
+            $push: "$name"
+        }
+    }},
+    {
+        $out: "Class_data"
+    }
+])
+
+// ----------------------------------------------------------------------------------
+
+
+// $merge
+
+// db.personal.aggregate([
+//     {
+//         $merge: {
+//             into: "students",
+//             on: "_id",
+//             whenMatched: "merge" // replace, keepExisting, fail
+//             whenNotMatched: "insert" // discard, fail
+//         }
+//     }
+// ])
+
+db.personal.aggregate([
+    {
+        $merge: {
+            into: "students",
+            on: "_id",
+            whenMatched: "merge", // replace, keepExisting, fail
+            whenNotMatched: "insert" // discard, fail
+        }
+    }
+])
+
+// -------------------------------------------------------------------------------------
+
+// $unionWith
+
+db.students1.aggregate([
+    {
+        $unionWith: {
+            coll: "students2"
+        }
+    }
+])
+
