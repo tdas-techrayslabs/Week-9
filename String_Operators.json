@@ -1,0 +1,412 @@
+// 1. $toUpper
+
+db.students_string.aggregate([
+    {
+        $project: {
+            upperCase: {$toUpper: "$name"}
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// 2. $toLower
+
+db.students_string.aggregate([
+    {
+        $project: {
+            lowerCase: {$toLower: "$name"}
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// 3. $strLenBytes
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            lengthInBytes: {$strLenBytes: "$name"} 
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// 4. $strLenCP
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            lengthInCodePoints: {$strLenCP: "$name"} 
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $strcasecmp
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            comparison: {$strcasecmp: ["$name", "John Abraham"]} 
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            comparison: {$strcasecmp: ["$name", "john Abraham"]} 
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $substrBytes
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            substring: {$substrBytes: ["$name", 0, 5]} 
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $substrCP
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            substring: {$substrCP: ["$name", 2, 5]} 
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $replaceOne
+
+db.students_string.aggregate([
+    {
+        $project: {
+            updatedString: {$replaceOne: {
+                input: "$name",
+                find: "Kaif",
+                replacement: "Kaushal"
+            }} 
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            updatedString: {$replaceOne: {
+                input: "My name is Kaif and his name is Kaif",
+                find: "Kaif",
+                replacement: "Kaushal"
+            }} 
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $replaceAll
+
+db.students_string.aggregate([
+    {
+        $project: {
+            updatedString: {$replaceAll: {
+                input: "My name is Kaif and his name is Kaif",
+                find: "Kaif",
+                replacement: "Kaushal"
+            }} 
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $split
+
+db.students_string.aggregate([
+    {
+        $project: {
+            words: {
+                $split: ["$name", " "]
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $concat
+
+db.students2.aggregate([
+    {
+        $project: {
+            fullName: {
+                $concat: ["$firstName", " ", "$lastName"]
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $toString
+
+db.students2.aggregate([
+    {
+        $project: {
+            stringField: {
+                $toString: "$age"
+            }
+        }
+    }
+])
+
+
+// ------------------------------------------------------------
+
+// $ltrim
+
+db.students_string.aggregate([
+    {
+        $project: {
+           trimmed: {
+                $ltrim: {input: "$name", chars: " "}
+            }
+        }
+    }
+])
+
+
+// ------------------------------------------------------------
+
+// $rtrim
+
+db.students_string.aggregate([
+    {
+        $project: {
+           trimmed: {
+                $rtrim: {input: "$name", chars: " "}
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $trim
+
+db.students_string.aggregate([
+    {
+        $project: {
+           trimmed: {
+                $trim: {input: "$name", chars: " "}
+            }
+        }
+    }
+])
+
+
+// ------------------------------------------------------------
+
+// $dateFromString
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            dob: 1,
+            date: {
+                $dateFromString: {dateString: "$dob"}
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $dateToString
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            dob: 1,
+            date: {
+                $dateToString: {format: "%Y-%m-%d", date: "$dob"}
+            }
+        }
+    }
+])
+
+
+
+// ------------------------------------------------------------
+
+// $indexOfBytes
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            index: {
+                $indexOfBytes: ["$name", "K"]
+            }
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            index: {
+                $indexOfBytes: ["$name", "k", 5]
+            }
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            index: {
+                $indexOfBytes: ["$name", "k", 6, 15]
+            }
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            index: {
+                $indexOfBytes: ["$name", "man"]
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $indexOfCP
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            index: {
+                $indexOfCP: ["$name", "man"]
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $regexMatch
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            isMatch: {
+                $regexMatch: {input: "$name", regex: "^Kat"}
+            }
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            isMatch: {
+                $regexMatch: {input: "$name", regex: "or$"}
+            }
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            isMatch: {
+                $regexMatch: {input: "$name", regex: /kha/i}
+            }
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            isMatch: {
+                $regexMatch: {input: "$name", regex: "Ku"}
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $regexFind
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            isMatch: {
+                $regexFind: {input: "$name", regex: "Khan"}
+            }
+        }
+    }
+])
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            isMatch: {
+                $regexFind: {input: "$name", regex: "^Sa"}
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------------
+
+// $regexFindAll
+
+db.students_string.aggregate([
+    {
+        $project: {
+            name: 1,
+            isMatch: {
+                $regexFindAll: {input: "$name", regex: "K"}
+            }
+        }
+    }
+])
