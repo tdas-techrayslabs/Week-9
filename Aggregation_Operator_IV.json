@@ -1,0 +1,72 @@
+// $bucket
+
+db.students_bucket.aggregate([
+    {
+        $bucket: {
+            groupBy: "$percentage",
+            boundaries: [33, 45, 60, 80, 100],
+            default: "Failed Students",
+            output: {
+                count: {$sum: 1}
+            }
+        }
+    }
+])
+
+db.students_bucket.aggregate([
+    {
+        $bucket: {
+            groupBy: "$percentage",
+            boundaries: [33, 45, 60, 80, 100],
+            default: "Failed Students"
+        }
+    }
+])
+
+// ---------------------------------------------------------------------
+
+// $bucket - $match
+
+db.students_bucket.aggregate([
+    {$match: {gender: "male"}},
+    {
+        $bucket: {
+            groupBy: "$percentage",
+            boundaries: [33, 45, 60, 80, 100],
+            default: "Failed Students"
+        }
+    }
+])
+
+
+// ---------------------------------------------------------------------
+
+// $bucketAuto - automatically creates boundaries depending upon no. of buckets
+
+db.students_bucket.aggregate([
+    {
+        $bucketAuto: {
+            groupBy: "$percentage",
+            buckets: 3
+        }
+    }
+])
+
+// // ---------------------------------------------------------------------
+
+// $bucketAuto - $avg
+
+db.students_bucket.aggregate([
+    {
+        $bucketAuto: {
+            groupBy: "$percentage",
+            buckets: 3,
+            output: {
+                count: { $sum: 1},
+                Average_percentage: {$avg: "$percentage"},
+                Total_Percentage: {$sum: "$percentage"}
+            }
+        }
+    }
+])
+
