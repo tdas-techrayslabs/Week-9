@@ -1,0 +1,112 @@
+// $match
+
+db.students.aggregate([
+    {$match: {age: 20}}
+])
+
+// $match + Comparison operator
+db.students.aggregate([ 
+    {$match: {age: {$gt: 20}}}
+])
+
+// $match + Comparison operator + Logical Operator
+db.students.aggregate([
+    {$match: {
+        $and: [
+            {age: {$gt: 20}},
+            {class: "BTech"}
+        ]
+    }}
+])
+
+// -----------------------------------------------------------------------
+
+// $count
+
+db.students.aggregate([ 
+    {$match: {age: {$gt: 20}}},
+    {$count: "name"}
+])
+
+db.students.aggregate([ 
+    {$match: {age: {$lt: 20}}},
+    {$count: "name"}
+])
+
+// -----------------------------------------------------------------------
+
+// $sort
+
+db.students.aggregate([ 
+    {$match: {age: {$gt: 20}}},
+    {$sort: {age: 1}}
+])
+
+db.students.aggregate([ 
+    {$match: {age: {$gt: 20}}},
+    {$sort: {age: -1}}
+])
+
+db.students.aggregate([ 
+    {$match: {age: {$gt: 20}}},
+    {$sort: {age: 1, name: 1}}
+])
+
+// -----------------------------------------------------------------------
+
+// $project
+
+db.students.aggregate([
+    {$match: {age: {$gt: 20}}},
+    {$sort: {age: 1, name: 1}},
+    {$project: {name: 1, age: 1, _id: 0}}
+])
+
+db.students.aggregate([
+    {$sort: {age: 1, name: 1}},
+    {$project: {name: 1, age: 1, _id: 0,
+        isValidAge: {$gt: ["$age", 20]}
+    }}
+])
+
+// -----------------------------------------------------------------------
+
+// $sortByCount
+
+db.students.aggregate([
+    {$sortByCount: "$class"}
+])
+
+// -----------------------------------------------------------------------
+
+// $limit
+
+db.students.aggregate([
+    {$match: {age: {$gt: 20}}},
+    {$sort: {age: 1, name: 1}},
+    {$project: {name: 1, age: 1, _id: 0}},
+    {$limit: 2}
+])
+
+// -----------------------------------------------------------------------
+
+// $skip - it should always be wriiten before $limit(if $limit is present)
+
+db.students.aggregate([
+    {$match: {age: {$gt: 20}}},
+    {$sort: {age: 1, name: 1}},
+    {$project: {name: 1, age: 1, _id: 0}},
+    {$skip: 2},
+    {$limit: 2}
+])
+
+// -----------------------------------------------------------------------
+
+// $sample - it shows random no. of documents depending on its size 
+
+db.students.aggregate([
+    {$sample: {size: 2}}
+])
+
+// -----------------------------------------------------------------------
+
