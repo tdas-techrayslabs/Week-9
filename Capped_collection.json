@@ -1,0 +1,54 @@
+// Capped - on new collection
+
+db.createCollection(
+    "log",
+    {
+        capped: true,
+        size: 51200, //50KB
+        max: 5
+    }
+)
+
+db.log.insertOne({
+    message: "Message number 1"
+})
+
+// -------------------------------------------------------------
+
+// $natural
+
+db.log.find().sort({$natural: -1}) //descending
+
+// -------------------------------------------------------------
+
+// isCapped()
+
+db.log.isCapped()
+
+// -------------------------------------------------------------
+
+// Capped - on existing collection
+
+db.runCommand({
+    convertToCapped: "students",
+    size: 51200,
+    max: 2
+})
+
+// -----------------------------------------------------------------
+
+// to update the max value of existing capped collection
+
+db.runCommand({
+    collMod: "log",
+    cappedMax: 7
+})
+
+// -----------------------------------------------------------------
+
+// to update the size value of existing capped collection
+
+db.runCommand({
+    collMod: "log",
+    cappedSize: 100000
+})
