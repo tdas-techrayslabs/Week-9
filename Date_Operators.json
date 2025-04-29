@@ -1,0 +1,475 @@
+// 1. $year
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Year: {
+                $year: "$dob"
+            }
+        }
+    }
+])
+
+// --------------------------------------------
+
+// 2. $month
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Month: {
+                $month: "$dob"
+            }
+        }
+    }
+])
+
+// -------------------------------------------------
+
+// 3. $week
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Week: {
+                $week: "$dob"
+            }
+        }
+    }
+])
+
+// -------------------------------------------------
+
+// 4. $day
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Day: {
+                $dayOfMonth: "$dob"
+            }
+        }
+    }
+])
+
+// -------------------------------------------------
+
+// 5. $dayOfWeek
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Day_of_week: {
+                $dayOfWeek: "$dob"
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 6. $dayOfYear
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Day_of_year: {
+                $dayOfYear: "$dob"
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 7. $hour, $minute, $second, $millisecond
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Hour: {
+                $hour: "$dob"
+            },
+            Minutes: {
+                $minute: "$dob"
+            },
+            Seconds: {
+                $second: "$dob"
+            },
+            MilliSeconds: {
+                $millisecond: "$dob"
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 8. $dateAdd
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            newDate: {
+                $dateAdd: {
+                    startDate: "$dob",
+                    unit: "day",
+                    amount: 5
+                }
+            }
+        }
+    }
+])
+
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            newDate: {
+                $dateAdd: {
+                    startDate: "$dob",
+                    unit: "year",
+                    amount: 2
+                }
+            }
+        }
+    }
+])
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            newDate: {
+                $dateAdd: {
+                    startDate: "$dob",
+                    unit: "month",
+                    amount: 3
+                }
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 8. $dateSubtract
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            newDate: {
+                $dateSubtract: {
+                    startDate: "$dob",
+                    unit: "day",
+                    amount: 5
+                }
+            }
+        }
+    }
+])
+
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            newDate: {
+                $dateSubtract: {
+                    startDate: "$dob",
+                    unit: "year",
+                    amount: 3
+                }
+            }
+        }
+    }
+])
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            newDate: {
+                $dateSubtract: {
+                    startDate: "$dob",
+                    unit: "month",
+                    amount: 1
+                }
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 8. $dateDiff
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Difference: {
+                $dateDiff: {
+                    startDate: "$dob",
+                    endDate: ISODate("2025-12-31T00:00:00.000Z"),
+                    unit: "year"
+                }
+            }
+        }
+    }
+])
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Difference: {
+                $dateDiff: {
+                    startDate: "$dob",
+                    endDate: ISODate("2025-12-31T00:00:00.000Z"),
+                    unit: "day"
+                }
+            }
+        }
+    }
+])
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Difference: {
+                $dateDiff: {
+                    startDate: "$dob",
+                    endDate: ISODate("2025-12-31T00:00:00.000Z"),
+                    unit: "month"
+                }
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 9. $dateFromParts
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            ConstructedDate: {
+                $dateFromParts: {
+                    year: 2025,
+                    month: 1,
+                    day: 7
+                }
+            }
+        }
+    }
+])
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            ConstructedDate: {
+                $dateFromParts: {
+                    year: 2025,
+                    month: 1,
+                    day: 7,
+                    hour: 15,
+                    minute: 45,
+                    second: 23,
+                    millisecond: 345
+                }
+            }
+        }
+    }
+])
+
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            ConstructedDate: {
+                $dateFromParts: {
+                    year: 2025,
+                    month: 1,
+                    day: 7,
+                    hour: 15,
+                    minute: 45,
+                    second: 23,
+                    millisecond: 345,
+                    timezone: "Europe/London"
+                }
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 10. $dateToParts
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            ConstructedDate: {
+                $dateToParts: {
+                    date: "$dob",
+                    timezone: "Europe/London"
+                }
+            }
+        }
+    }
+])
+
+
+// ------------------------------------------------------
+
+// 11. $dateTrunc
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            truncatedDate: {
+                $dateTrunc: {
+                    date: "$dob",
+                    unit: "month"
+                }
+            }
+        }
+    }
+])
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            truncatedDate: {
+                $dateTrunc: {
+                    date: "$dob",
+                    unit: "year"
+                }
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 12. $dateToString
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Date: {
+                $dateToString: {
+                    date: "$dob",
+                    format: "%d-%b-%Y"
+                }
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 13. $toDate
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Date: {
+                $toDate: "$dob"
+            }
+        }
+    }
+])
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Date: {
+                $toDate: 1672531200000
+            }
+        }
+    }
+])
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            Date: {
+                $toDate: "2018-03-20"
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 14. $isoDayOfWeek
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            isoDayOfWeek: {
+                $isoDayOfWeek: "$dob"
+            }
+        }
+    }
+])
+
+// ------------------------------------------------------
+
+// 15: $isoWeek
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            isoWeek: {
+                $isoWeek: "$dob"
+            }
+        }
+    }
+])
+
+
+// ------------------------------------------------------
+
+// 16. $isoWeekYear
+
+db.students3.aggregate([
+    {
+        $project: {
+            name: 1,
+            isoWeekYear: {
+                $isoWeekYear: "$dob"
+            }
+        }
+    }
+])
+
+
+// ------------------------------------------------------
+
