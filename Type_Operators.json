@@ -1,0 +1,222 @@
+// 1. $toString
+
+db.students_type.aggregate([
+    {
+        $project: {
+            stringValue: {$toString: "$name"}
+        }
+    }
+])
+
+
+db.students_type.aggregate([
+    {
+        $project: {
+            stringValue: {$toString: "$marks"}
+        }
+    }
+])
+
+db.students_type.aggregate([
+    {
+        $project: {
+            stringValue: {$toString: "$dob"}
+        }
+    }
+])
+
+// -----------------------------------------------------------
+
+// $toInt
+
+db.students_type.aggregate([
+    {
+        $project: {
+            intValue: {$toInt: "$age"}
+        }
+    }
+])
+
+db.students_type.aggregate([
+    {
+        $project: {
+            intValue: {$toInt: "$marks"}
+        }
+    }
+])
+
+db.students_type.aggregate([
+    {
+        $project: {
+            intValue: {$toInt: "$pass"}
+        }
+    }
+])
+
+// -----------------------------------------------------------
+
+// $toLong
+
+
+db.students_type.aggregate([
+    {
+        $project: {
+            LongValue: {$toLong: "$marks"}
+        }
+    }
+])
+
+db.students_type.aggregate([
+    {
+        $project: {
+            LongValue: {$toLong: "$pass"}
+        }
+    }
+])
+
+
+// -----------------------------------------------------------
+
+// $toDouble
+
+db.students_type.aggregate([
+    {
+        $project: {
+            doubleValue: {$toDouble: "$age"}
+        }
+    }
+])
+
+
+db.students_type.aggregate([
+    {
+        $project: {
+            doubleValue: {$toDouble: "$marks"}
+        }
+    }
+])
+
+// -----------------------------------------------------------
+
+// $toDecimal
+
+db.students_type.aggregate([
+    {
+        $project: {
+            decimalValue: {$toDecimal: "$marks"}
+        }
+    }
+])
+
+db.students_type.aggregate([
+    {
+        $project: {
+            decimalValue: {$toDecimal: "$dob"}
+        }
+    }
+])
+
+// -----------------------------------------------------------
+
+// $toBool
+
+db.students_type.aggregate([
+    {
+        $project: {
+            boolValue: {$toBool: "$dob"}
+        }
+    }
+])
+
+
+// -----------------------------------------------------------
+
+// $toObjectId
+
+db.students_type.aggregate([
+    {
+        $project: {
+            objectIdValue: {$toObjectId: "5912cd1ca13eb24de4d23478"}
+        }
+    }
+])
+
+// -----------------------------------------------------------
+
+// $convert
+
+db.students_type.aggregate([
+    {
+        $project: {
+            convertedValue: {
+                $convert: {
+                    input: "$age",
+                    to: "int"
+                }
+            }
+        }
+    }
+])
+
+// -----------------------------------------------------------
+
+// $type
+
+db.students_type.aggregate([
+    {
+        $project: {
+            fieldType: {
+                $type: "$age"
+            }
+        }
+    }
+])
+
+db.students_type.aggregate([
+    {
+        $project: {
+            fieldType: {
+                $type: "$marks"
+            }
+        }
+    }
+])
+
+db.students_type.aggregate([
+    {
+        $project: {
+            fieldType: {
+                $type: "$dob"
+            }
+        }
+    }
+])
+
+// -----------------------------------------------------------
+
+// $isNumber
+
+
+db.students_type.aggregate([
+    {
+        $project: {
+            isNumber: {
+                $isNumber: "$dob"
+            }
+        }
+    }
+])
+
+
+db.students_type.aggregate([
+    {
+        $project: {
+            isNumber: {
+                $isNumber: "$marks"
+            }
+        }
+    }
+])
+
+
+// -----------------------------------------------------------
