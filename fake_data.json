@@ -1,0 +1,49 @@
+[
+    {
+      "_id": 1,
+      "name": "Aarav Sharma",
+      "age": 28,
+      "department": "Sales",
+      "salary": 55000,
+      "isPermanent": true,
+      "joiningDate": "2021-06-15T09:00:00Z"
+    },
+    {
+      "_id": 2,
+      "name": "Maya Patel",
+      "age": 24,
+      "department": "Marketing",
+      "salary": 48000,
+      "isPermanent": false,
+      "joiningDate": "2023-01-10T10:30:00Z"
+    },
+    {
+      "_id": 3,
+      "name": "Rohan Mehta",
+      "age": 32,
+      "department": "HR",
+      "salary": 60000,
+      "isPermanent": true,
+      "joiningDate": "2019-03-20T08:45:00Z"
+    },
+    {
+      "_id": 4,
+      "name": "Sanya Kapoor",
+      "age": 29,
+      "department": "Engineering",
+      "salary": 75000,
+      "isPermanent": true,
+      "joiningDate": "2020-11-05T11:15:00Z"
+    },
+    {
+      "_id": 5,
+      "name": "Devansh Joshi",
+      "age": 26,
+      "department": "Support",
+      "salary": 42000,
+      "isPermanent": false,
+      "joiningDate": "2022-07-18T13:00:00Z"
+    }
+]  
+
+
