@@ -1,0 +1,53 @@
+// 1. Backup
+
+// mongodump
+
+// Database backup
+
+mongodump -d school -o "C:/backup" 
+
+mongodump -db school -out "C:/backup" 
+
+
+// -----------------------------------------------------------------------
+
+// Collection backup
+
+mongodump -d school -c students -o "C:/backup" 
+
+// -----------------------------------------------------------------------
+
+// Complete MongoDB data backup
+
+mongodump -o "C:/backup" 
+
+
+// -----------------------------------------------------------------------
+
+
+// -----------------------------------------------------------------------
+
+
+// 2. Restore
+
+// mongorestore
+
+// Collection restore
+
+mongorestore -d school -c students "C:/backup/school/students.bson"
+
+
+// -----------------------------------------------------------------------
+
+// Database restore / dumping one database's value into another database
+
+mongorestore -d office "C:/backup/school"
+
+
+// -----------------------------------------------------------------------
+
+// Complete MongoDB data restore
+
+mongorestore --dir "C:/backup"
+
+mongorestore --drop --dir "C:/backup"
