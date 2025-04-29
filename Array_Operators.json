@@ -1,0 +1,533 @@
+// 1. $arrayElemAt
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            selectedHobby: {
+                $arrayElemAt: ["$hobbies", 2]
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $firstN
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            topHobby: {
+                $firstN: {
+                    input: "$hobbies",
+                    n: 1
+                }
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            topHobby: {
+                $firstN: {
+                    input: "$hobbies",
+                    n: 2
+                }
+            }
+        }
+    }
+])
+
+
+// ---------------------------------------------------------------
+
+// $lastN
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            lastHobbies: {
+                $lastN: {
+                    input: "$hobbies",
+                    n: 1
+                }
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            lastHobbies: {
+                $lastN: {
+                    input: "$hobbies",
+                    n: 2
+                }
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $maxN
+
+db.students_array2.aggregate([
+    {
+        $project: {
+            name: 1,
+            topMarks: {
+                $maxN: {
+                    input: "$marks",
+                    n: 2
+                }
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $minN
+
+db.students_array2.aggregate([
+    {
+        $project: {
+            name: 1,
+            lowMarks: {
+                $minN: {
+                    input: "$marks",
+                    n: 2
+                }
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $slice
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            selectedHobbies: {
+                $slice: ["$hobbies", 3]
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            selectedHobbies: {
+                $slice: ["$hobbies", 1, 2]
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            selectedHobbies: {
+                $slice: ["$hobbies", -2]
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            selectedHobbies: {
+                $slice: ["$hobbies", -2, 1]
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $sortArray
+
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            sortedHobbies: {
+                $sortArray: {input: "$hobbies", sortBy: 1}
+            }
+        }
+    }
+])
+
+db.students_array2.aggregate([
+    {
+        $project: {
+            name: 1,
+            sortedMarks: {
+                $sortArray: {input: "$marks", sortBy: 1}
+            }
+        }
+    }
+])
+
+db.students_array2.aggregate([
+    {
+        $project: {
+            name: 1,
+            sortedMarks: {
+                $sortArray: {input: "$marks", sortBy: -1}
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $reverseArray
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            reversedHobbies: {
+                $reverseArray: "$hobbies"
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $size
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            HobbiesCount: {
+                $size: "$hobbies"
+            }
+        }
+    }
+])
+
+
+// ---------------------------------------------------------------
+
+// $in
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            check: {
+                $in: ["music", "$hobbies"]
+            }
+        }
+    }
+])
+
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            check: {
+                $in: ["test", "$hobbies"]
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            check: {
+                $in: ["football", "$hobbies"]
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $indexOfArray
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            check: {
+                $indexOfArray: ["$hobbies", "football"]
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            check: {
+                $indexOfArray: ["$hobbies", "football", 1, 3]
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            name: 1,
+            check: {
+                $indexOfArray: ["$hobbies", "football", 1, 4]
+            }
+        }
+    }
+])
+
+
+// ---------------------------------------------------------------
+
+// $isArray
+
+
+db.students_array.aggregate([
+    {
+        $project: {
+            isArray: {
+                $isArray: "$hobbies"
+            }
+        }
+    }
+])
+
+
+// ---------------------------------------------------------------
+
+// $map
+
+db.students_array.aggregate([
+    {
+        $project: {
+            upperCaseHobbies: {
+                $map: {
+                    input: "$hobbies",
+                    as: "hobbies",
+                    in: {$toUpper: "$$hobbies"}
+                }
+            }
+        }
+    }
+])
+
+
+db.students_array2.aggregate([
+    {
+        $project: {
+            newMarks: {
+                $map: {
+                    input: "$marks",
+                    as: "marks",
+                    in: {$add: ["$$marks", 2]}
+                }
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $filter
+
+db.students_array2.aggregate([
+    {
+        $project: {
+            aboveMarks: {
+                $filter: {
+                    input: "$marks",
+                    as: "marks",
+                    cond: {$gte: ["$$marks", 60]}
+                }
+            }
+        }
+    }
+])
+
+db.students_array2.aggregate([
+    {
+        $project: {
+            aboveMarks: {
+                $filter: {
+                    input: "$marks",
+                    as: "marks",
+                    cond: {$gte: ["$$marks", 60]},
+                    limit: 1
+                }
+            }
+        }
+    }
+])
+
+
+// ---------------------------------------------------------------
+
+// $reduce
+
+db.students_array2.aggregate([
+    {
+        $project: {
+            totalMarks: {
+                $reduce: {
+                    input: "$marks",
+                    initialValue: 0,
+                    in: {$add: ["$$value", "$$this"]}
+                }
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            combineHobbies: {
+                $reduce: {
+                    input: "$hobbies",
+                    initialValue: "",
+                    in: {$concat: ["$$value", "$$this"]}
+                }
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            combineHobbies: {
+                $reduce: {
+                    input: "$hobbies",
+                    initialValue: "",
+                    in: {$concat: ["$$value", "$$this", ", "]}
+                }
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $range
+
+db.students_array.aggregate([
+    {
+        $project: {
+            numbers: {
+                $range: [1, 6, 1]
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            numbers: {
+                $range: [1, 6, 2]
+            }
+        }
+    }
+])
+
+db.students_array.aggregate([
+    {
+        $project: {
+            numbers: {
+                $range: [10, 0, -1]
+            }
+        }
+    }
+])
+
+
+// ---------------------------------------------------------------
+
+// $concatArray
+
+db.students_array3.aggregate([
+    {
+        $project: {
+            name: 1,
+            allSubjects: {
+                $concatArrays: ["$subjects", "$extraSubjects"]
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $zip
+
+db.students_array4.aggregate([
+    {
+        $project: {
+            name: 1,
+            data: {
+                $zip: {inputs: ["$subjects", "$marks"]}
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $arrayToObject
+
+db.students_array5.aggregate([
+    {
+        $project: {
+            name: 1,
+            SubjectInfo: {
+                $arrayToObject: "$subjects"
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
+// $objectToArray
+
+db.students_array6.aggregate([
+    {
+        $project: {
+            name: 1,
+            SubjectInfo: {
+                $objectToArray: "$studentInfo"
+            }
+        }
+    }
+])
+
+// ---------------------------------------------------------------
+
