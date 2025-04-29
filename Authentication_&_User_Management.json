@@ -1,0 +1,122 @@
+// Create User
+
+use admin
+
+db.createUser({
+    user: "admin",
+    pwd: "admin123",
+    roles: [{
+        role: "root", // superuser - all user privileges
+        db: "admin"
+    }]
+})
+
+
+db.createUser({
+    user: "developer",
+    pwd: "dev123",
+    roles: [{
+        role: "read", // can only read the database ("school")
+        db: "school"
+    }]
+})
+
+
+// --------------------------------------------------------------------
+
+// Authentication - LOGIN
+
+db.auth("admin", "admin123")
+
+db.auth("developer", "dev123")
+
+// --------------------------------------------------------------------
+
+
+db.getUsers() // Get all the users only with "admin" role
+
+
+db.getUser("developer") // only for admin
+
+// --------------------------------------------------------------------
+
+// Update user
+
+db.updateUser(
+    "developer",
+    {roles: [{
+        role: "readWrite",
+        db: "school"
+    }]}
+)
+
+// --------------------------------------------------------------------
+
+// Change User Password
+
+db.changeUserPassword(
+    "developer",
+    "pass123"
+)
+
+db.auth("developer", "pass123")
+
+// --------------------------------------------------------------------
+
+// Delete user
+
+db.dropUser("developer")
+
+// --------------------------------------------------------------------
+
+// Delete all users
+
+db.dropAllUsers()
+
+
+db.dropAllUsers({w: "majority", wtimeout: 5000}) //no write operation until 5 secs
+
+// --------------------------------------------------------------------
+
+// Grant Roles to User
+
+db.grantRolesToUser(
+  "developer",
+  [
+    {
+        role: "dbOwner",
+        db: "school"
+    }
+  ]
+)
+
+db.grantRolesToUser(
+  "developer",
+  [
+    {
+        role: "dbOwner",
+        db: "school"
+    },
+    {
+        role: "readWrite",
+        db: "school"
+    }
+  ]
+)
+
+// --------------------------------------------------------------------
+
+// Revoke rules from user
+
+db.revokeRolesFromUser(
+  "developer",
+  [
+    {
+        role: "read",
+        db: "school"
+    }
+  ]
+)
+
+
+// --------------------------------------------------------------------
