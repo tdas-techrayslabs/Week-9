@@ -1,0 +1,76 @@
+// 1. $cond
+
+db.products.aggregate([
+    {
+        $project: {
+            name: 1,
+            price: 1,
+            priceCategory: {
+                $cond: {
+                    if: {$gt: ["$price", 1000]},
+                    then: "Expensive",
+                    else: "Affordable"
+                }
+            }
+        }
+    }
+])
+
+
+db.products.aggregate([
+    {
+        $project: {
+            name: 1,
+            OriginalPrice: "$price",
+            finalPrice: {
+                $cond: {
+                    if: "$discounted",
+                    then: {$multiply: ["$price", 0.9]},
+                    else: "$price"
+                }
+            }
+        }
+    }
+])
+
+// --------------------------------------------------------
+
+// $ifNull
+
+
+db.users.aggregate([
+    {
+        $project: {
+            name: 1,
+            email: {
+                $ifNull: ["$email", "No Email"]
+            }
+        }
+    }
+])
+
+// --------------------------------------------------------
+
+// $switch
+
+db.students_conditional.aggregate([
+    {
+        $project: {
+            name: 1,
+            percentage: 1,
+            grade: {
+                $switch: {
+                    branches: [
+                        {case: {$gte: ["$percentage", 80]}, then: "Merit"},
+                        {case: {$gte: ["$percentage", 60]}, then: "1st Division"},
+                        {case: {$gte: ["$percentage", 45]}, then: "2nd Divison"},
+                        {case: {$gte: ["$percentage", 33]}, then: "3rd Division"},
+                    ],
+                    default: "Fail"
+                }
+            }
+        }
+    }
+])
+
+// --------------------------------------------------------
