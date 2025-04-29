@@ -1,0 +1,68 @@
+// explain()
+
+db.students.find().explain()
+
+// -------------------------------------------------------
+
+// explain("executionStats")
+
+db.students.find().explain("executionStats")
+
+// -------------------------------------------------------
+
+// Single Field Index
+
+db.students.createIndex(
+    {name: 1} // 1- Ascending / 2- Descending
+)
+
+db.students.getIndexes()
+
+db.students.dropIndex("name_-1")
+
+// -------------------------------------------------------
+
+// Compound Indexes
+
+db.students.createIndex({
+    class: 1,
+    age: -1
+})
+
+// -------------------------------------------------------
+
+// Unique Index
+
+db.students.createIndex({phone: 1}, {unique: true})
+
+
+db.students.insertOne({
+    _id: 10,
+    name: "Amitabh Bachan",
+    age: 81,
+    class: "BTech",
+    city: "Kanpur",
+    phone: 303085
+})
+
+// -------------------------------------------------------
+
+// Text Index
+
+db.students.createIndex({
+    name: "text"
+})
+
+db.students.find({$text: {$search: "Kumar"}})
+
+// -------------------------------------------------------
+
+// WildCard Index - applied on all the fields
+
+db.students.createIndex({ "$**": 1 })
+
+// -------------------------------------------------------
+
+// Indexing on Array
+
+db.students_array.createIndex({hobbies: 1})
