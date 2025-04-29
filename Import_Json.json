@@ -1,0 +1,4 @@
+// mongoimport
+
+mongoimport "C:/Users/User/Desktop/Week-9/fake_data.json" -d school -c demo --jsonArray
+
